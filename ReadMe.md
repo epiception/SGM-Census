@@ -1,7 +1,7 @@
 SGM-Census
 ==========
 
-Simple CPU implementation of Semi-Global Matching using Census Transform and Hamming Distance Matching Cost
+Simple CPU implementation of Semi-Global Matching using Census Transform and Hamming Distance Matching Cost.
 
 
 ---

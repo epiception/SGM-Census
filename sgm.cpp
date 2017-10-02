@@ -45,6 +45,7 @@ vector<limits> paths;
 
 void init_paths(int image_height, int image_width)
 {
+    //8 paths from center pixel based on change in X and Y coordinates
     for(int i =0;i < PATHS_PER_SCAN; i++)
     {
         paths.push_back(limits());
@@ -240,7 +241,7 @@ void calculateCostHamming(cv::Mat &firstImage, cv::Mat &secondImage, int dispari
                 if (y+d<image_width - window_width/2)
                     census_right= census_vright[x][y+d];
                 else census_right= census_vright[x][y-disparityRange+d];
-                long answer=(long)(census_left^census_right);
+                long answer=(long)(census_left^census_right); //Hamming Distance
                 short dist=0;
                 while(answer)
                 {
@@ -267,7 +268,7 @@ void calculateCostHamming(cv::Mat &firstImage, cv::Mat &secondImage, int dispari
                 }
             }
 
-            disparityMapstage1.at<uchar>(row, col) = smallest_disparity*256.0/disparityRange;
+            disparityMapstage1.at<uchar>(row, col) = smallest_disparity*255.0/disparityRange; //Least cost Disparity
         }
     }
 
@@ -317,6 +318,7 @@ void disprange_aggregation(int disparityRange,unsigned long ***C, unsigned int *
 
 void aggregation(cv::Mat &firstImage, cv::Mat &secondImage, int disparityRange, unsigned long ***C, unsigned long ***S, unsigned int ****A)
 {
+    //Even and Odd paths based on change in X and Y coordinates
     ProgressBar bar(0);
 
     for(int ch_path = 0; ch_path < PATHS_PER_SCAN; ++ch_path)
@@ -386,7 +388,7 @@ void aggregation(cv::Mat &firstImage, cv::Mat &secondImage, int disparityRange, 
             for(int d = 0; d<disparityRange; d++)
             {
                 for(int path = 0; path < PATHS_PER_SCAN; path ++)
-                    S[row][col][d] += A[path][row][col][d];
+                    S[row][col][d] += A[path][row][col][d]; //Aggregation
             }
         }
     }
@@ -408,7 +410,7 @@ void computeDisparity(int disparityRange, int rows, int cols, unsigned long ***S
                 if(S[row][col][d]<smallest_cost)
                 {
                     smallest_cost=S[row][col][d];
-                    smallest_disparity=d;
+                    smallest_disparity=d; //Least cost disparity after Aggregation
 
                 }
             }
@@ -482,6 +484,7 @@ int main(int argc, char** argv) {
         }
     }
 
+    //Initial Smoothing
     GaussianBlur( firstImage, firstImage, Size( BLUR_RADIUS, BLUR_RADIUS ), 0, 0 );
     GaussianBlur( secondImage, secondImage, Size( BLUR_RADIUS, BLUR_RADIUS ), 0, 0 );
 
