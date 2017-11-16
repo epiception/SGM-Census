@@ -3,6 +3,7 @@ SGM-Census
 
 Simple CPU implementation of Semi-Global Matching using Census Transform and Hamming Distance Matching Cost.
 
+<img src="Examples/output_montage.png" style="width: 25%;"/>
 
 ---
 ## Instructions
