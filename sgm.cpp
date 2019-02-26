@@ -106,7 +106,7 @@ void init_paths(int image_height, int image_width)
             paths[i].start_pt_y = window_width/2;
             paths[i].end_pt_y = image_width - window_width/2;
             paths[i].start_pt_x = image_height - window_height/2;
-            paths[i].end_pt_x = image_height/2;
+            paths[i].end_pt_x = window_height/2;
             break;
 
             case 4:
